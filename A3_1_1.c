@@ -19,10 +19,11 @@
   Section:Fab Room
 
 
-  Task Description:
+  Task Description: to test each one of the motors and sensors
 
 
   Pseudocode:
+  N/A
 
 */
 
