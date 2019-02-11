@@ -26,7 +26,7 @@ and then stop.
 task main()
 {
 
-                                      //Program begins, insert code within curly braces
+                                 
 	startMotor(rightMotor, 64); //Spins the motor at half speed for 5 seconds
 	wait(5);
 	stopMotor(rightMotor);
