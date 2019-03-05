@@ -46,20 +46,19 @@ the motor that control movement spin (MOTORS C and MOTORS D)
 task main()
 {                                     //Program begins, insert code within curly braces
 
-	startMotor(turnMotor,11);    			// makes the crane of the robot spin
-	untilSonarLessThan(7, sonar);   		// until an object is detected under the crane
+	startMotor(turnMotor,11);    			//makes the crane of the robot spin
+	untilSonarLessThan(7, sonar);   		//when an object is detected under the crane
 	stopMotor(turnMotor);				//stops the crane from spinning
-	startMotor(lowerMotor,100);			// starting the motor that lowers the string
-	wait(2.5);					// motor continues spinning for 2.5 seconds
-	stopMotor(lowerMotor);				//motor stops
-	startMotor(lowerMotor,-100);			//reverses direction
-	wait(2.5);					//spins for 2.5 seconds
-	stopMotor(lowerMotor);				//stop the motor
+	startMotor(lowerMotor,100);			//starts the motor that lowers the string
+	wait(2.5);					//motor lowers string for 2.5 seconds
+	stopMotor(lowerMotor);				//motor stops lowering string
+	startMotor(lowerMotor,-100);			//motor raises string 
+	wait(2.5);					//motor raises string for 2.5 seconds
+	stopMotor(lowerMotor);				//motor stops raising string
 	startMotor(rightMotor,100);			//the right wheel motor begins to turn
-	startMotor(leftMotor,-100);			//the left wheel motor begins to turn
-	//wait(10);									
-	waitUntil(SensorValue(linefollower)<=2800);	//motor should continue to spin until the line follower detects black
-	stopMotor(rightMotor);				//stops right motor
-	stopMotor(leftMotor);				//stops left motor
+	startMotor(leftMotor,-100);			//the left wheel motor begins to turn 									
+	waitUntil(SensorValue(linefollower)<=2800);	//when line follower stops detecting black line
+	stopMotor(rightMotor);				//right motor stops
+	stopMotor(leftMotor);				//left motor stops
 
 }
