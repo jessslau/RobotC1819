@@ -47,19 +47,19 @@ task main()
 {                                     //Program begins, insert code within curly braces
 
 	startMotor(turnMotor,11);    			// makes the crane of the robot spin
-	untilSonarLessThan(7, sonar);   // until an object is detected under the crane
-	stopMotor(turnMotor);						//stops the crane from spinning
-	startMotor(lowerMotor,100);					// starting the motor that lowers the string
-	wait(2.5);														// motor continues spinning for a certain amount of time
-	stopMotor(lowerMotor);							//motor stops
-	startMotor(lowerMotor,-100);				//reverses direction
-	wait(2.5);														//spins for a certain amount of time
-	stopMotor(lowerMotor);																			//stop the motor
-	startMotor(rightMotor,100);					//the right wheel motor begins to turn
-	startMotor(leftMotor,-100);					//the left wheel motor begins to turn
-	wait(10);
-	waitUntil(SensorValue(linefollower)<=2800);		//motor should continue to spin until the line follower detects black
-	stopMotor(rightMotor);													//stops right motor
-	stopMotor(leftMotor);														//stops left motor
+	untilSonarLessThan(7, sonar);   		// until an object is detected under the crane
+	stopMotor(turnMotor);				//stops the crane from spinning
+	startMotor(lowerMotor,100);			// starting the motor that lowers the string
+	wait(2.5);					// motor continues spinning for 2.5 seconds
+	stopMotor(lowerMotor);				//motor stops
+	startMotor(lowerMotor,-100);			//reverses direction
+	wait(2.5);					//spins for 2.5 seconds
+	stopMotor(lowerMotor);				//stop the motor
+	startMotor(rightMotor,100);			//the right wheel motor begins to turn
+	startMotor(leftMotor,-100);			//the left wheel motor begins to turn
+	//wait(10);									
+	waitUntil(SensorValue(linefollower)<=2800);	//motor should continue to spin until the line follower detects black
+	stopMotor(rightMotor);				//stops right motor
+	stopMotor(leftMotor);				//stops left motor
 
 }
