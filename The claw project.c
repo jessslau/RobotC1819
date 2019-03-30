@@ -17,14 +17,20 @@ Date:2/27/19
 Section:Fab Room
 
 
-Task Description: To create a crane that can pick up an object and drop it to a designated location
+Task Description: To create a claw machine that can pick up an object and drop it to a designated location based on color
 
 
 Pseudocode:
-...
+//car moves until the ultrasonic sensor detects a difference in distance ( reaching the middle ) once an object is placed in front of the line follower
+// line follower reads the block value ( to determine if it is light or dark )
+// crane opens, lowers, closes, and raises
+// depending on the block value moves right or left until one of the limit switches are pressed
+// crane lowers, opens, closes, and raises to drop the item
+//crane moves the opposite direction until the ultrasonic sensor detects a difference in distance( reaching the middle )
+//the process repeats again
 
 */
-int sonarValue = 15;
+int sonarValue = 5;                                  // the distance that detects the "indicator" telling the car to stop
 
 void openTheCrane()
 {
@@ -38,27 +44,27 @@ void closeTheCrane()
 	wait(0.5);
 	stopMotor(openMotor);
 }
-void lowerTheCrane()
+void lowerTheCrane(int x)
 {
 	startMotor(lowerMotor,-100);			//lowers the crane
-	wait(0.7);
+	wait(x);
 	stopMotor(lowerMotor);
 }
-void raiseTheCrane()
+void raiseTheCrane(int x)
 {
 	startMotor(lowerMotor,100);					//start raising the crane
-	wait(0.9);
+	wait(x);
 	stopMotor(lowerMotor);
 }
 
-void rightMove(){
+void rightMove(){								//move from the right until reaching the middle
 	startMotor(leftMotor,20);
 	startMotor(rightMotor,20);
 	waitUntil(SensorValue(sonar) < sonarValue);
 	stopMotor(leftMotor);
 	stopMotor(rightMotor);
 }
-void leftMove(){
+void leftMove(){							//move from the left until reaching the middle
 	startMotor(leftMotor,-20);
 	startMotor(rightMotor,-20);
 	waitUntil(SensorValue(sonar) < sonarValue);
@@ -66,7 +72,7 @@ void leftMove(){
 	stopMotor(rightMotor);
 }
 
-void moveLeft(){
+void moveLeft(){							//moves left until the limit switch is pressed
 	startMotor(leftMotor,20);
 	startMotor(rightMotor,20);
 	waitUntil(SensorValue(leftLimit) == 1);
@@ -74,7 +80,7 @@ void moveLeft(){
 	stopMotor(rightMotor);
 }
 
-void moveRight(){
+void moveRight(){							//moves right until the limit switch is pressed
 	startMotor(leftMotor,-20);
 	startMotor(rightMotor,-20);
 	waitUntil(SensorValue(rightLimit) == 1);
@@ -87,30 +93,33 @@ task main()
 
 	//raiseTheCrane();
 while(true){
-	waitUntil(SensorValue(lineFollower) < 3000);    //linefollower detects an object
-	rightMove();                                  //move the car to the object
-	openTheCrane();																	//open the crane
-	int sensorValue = SensorValue(lineFollower);
-	lowerTheCrane();																//lower the crane
-	closeTheCrane();																//close the crane
-	raiseTheCrane();																//raise the crane
-	if(sensorValue < 1000){													//if the line follower detects bright color
-		moveRight();																	//move right till the limit switch is presed
+	waitUntil(SensorValue(lineFollower) < 3000);   		//linefollower detects an object
+	rightMove();                                  		//move the car to the object
+	openTheCrane();					//open the crane
+	int sensorValue = SensorValue(lineFollower);		//stores the value of the block
+	lowerTheCrane(1.7);					//lower the crane
+	closeTheCrane();					//close the crane
+	raiseTheCrane(2);					//raise the crane
+	if(sensorValue < 1000){					//if the line follower detects bright color
+		moveRight();					//move right till the limit switch is presed
+		lowerTheCrane(1.4);				//lower the crane
 		wait(1);
-		openTheCrane();																//open the crane to drop the object
-		closeTheCrane();															//close the
-		rightMove();
-		if(SensorValue(rightLimit)==1){
-			rightMove();
+		openTheCrane();					//open the crane to drop the objec
+		closeTheCrane();				//close the creane
+		raiseTheCrane(1.6);				//raise the crane
+		if(SensorValue(rightLimit)==1){			//if on the right side
+			rightMove();				//move from the right to the middle
 		}
 	}
 	if(sensorValue > 1000){                     		//if it is a dark color
-		moveLeft();																			//move left till the limit switch is pressed
+		moveLeft();					//move left till the limit switch is pressed
+		lowerTheCrane(1.4);				//lower the crane
 		wait(1);
-		openTheCrane();																//open the crane to drop the object
-		closeTheCrane();
-		if(SensorValue(leftLimit)==1){
-			leftMove();
+		openTheCrane();					//open the crane to drop the object
+		closeTheCrane();				//close the crane
+		raiseTheCrane(1.6);				//raise the crane
+		if(SensorValue(leftLimit)==1){			//if on the left side
+			leftMove();				//move from the left to the middle
 		}
 
 	}
